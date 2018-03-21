@@ -27,7 +27,6 @@ public class PerfectLinkTest {
         try {
             TestContext<PerfectLink> tc = TestContext.newInstance(PerfectLink.class, new PerfectLink.Pp2pInit(n1));
             Component comp = tc.getComponentUnderTest();
-            /*
             Negative<Network> net = comp.getNegative(Network.class);
             Positive<PerfectLinkPort> pLink = comp.getPositive(PerfectLinkPort.class);
 
@@ -41,7 +40,6 @@ public class PerfectLinkTest {
                             net, Direction.OUT);
 
             assertTrue(tc.check());
-            */
 
         } catch (Exception e) {
             e.printStackTrace();
