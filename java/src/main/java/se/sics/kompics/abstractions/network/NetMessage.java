@@ -38,6 +38,7 @@ public abstract class NetMessage implements Serializable, Msg<NetAddress, NetHea
         this.header = new NetHeader(src, dst, protocol);
     }
 
+
     @Override
     public NetHeader getHeader() {
         return this.header;
