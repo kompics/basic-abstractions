@@ -23,22 +23,49 @@ package se.sics.kompics.abstractions.broadcast.beb;
 
 import com.google.common.collect.ImmutableSet;
 import org.junit.Test;
-import se.sics.kompics.*;
+import se.sics.kompics.Component;
+import se.sics.kompics.KompicsEvent;
+import se.sics.kompics.Negative;
+import se.sics.kompics.Positive;
+import se.sics.kompics.abstractions.TestUtils;
 import se.sics.kompics.abstractions.links.perfect.PerfectLinkPort;
 import se.sics.kompics.abstractions.links.perfect.Pp2pSend;
 import se.sics.kompics.abstractions.network.NetAddress;
+import se.sics.kompics.simulator.SimulationScenario;
+import se.sics.kompics.simulator.result.SimulationResultMap;
+import se.sics.kompics.simulator.result.SimulationResultSingleton;
+import se.sics.kompics.simulator.run.LauncherComp;
 import se.sics.kompics.testing.Direction;
 import se.sics.kompics.testing.TestContext;
 
 import java.net.InetAddress;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class BestEffortBroadcastTest {
+public class BebTest {
 
-    //TODO: Improve with simulation instead?
     @Test
-    public void broadcastTest() {
+    public void scenarioTest() {
+        long seed = 123;
+        SimulationScenario.setSeed(seed);
+        SimulationScenario bebScenario = BebScenario.normal(TestUtils.BEB_NODES);
+        bebScenario.simulate(LauncherComp.class);
+        SimulationResultMap res = SimulationResultSingleton.getInstance();
+        int port = TestUtils.NODE_PORT;
+        String nodePrefix = TestUtils.NODE_ADDR_PREFIX;
+
+        for (int i = 1; i < TestUtils.BEB_NODES+1; i++) {
+            int nodeSent = res.get("/" + nodePrefix + i + ":" + port +"sent", Integer.class);
+            int nodeDelivered = res.get("/" + nodePrefix + i + ":" + port + "delivered", Integer.class);
+
+            assertEquals(nodeSent, 1);
+            assertEquals(nodeDelivered, TestUtils.BEB_NODES);
+        }
+    }
+
+    @Test
+    public void componentTest() {
         NetAddress n1 = new NetAddress(InetAddress.getLoopbackAddress(), 12346);
         NetAddress n2 = new NetAddress(InetAddress.getLoopbackAddress(), 12347);
         NetAddress n3 = new NetAddress(InetAddress.getLoopbackAddress(), 12348);
@@ -61,8 +88,6 @@ public class BestEffortBroadcastTest {
         assertTrue(tc.check());
     }
 
-
     private class Ping implements KompicsEvent {
-
     }
 }
