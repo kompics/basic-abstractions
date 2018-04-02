@@ -19,30 +19,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package se.sics.kompics.abstractions.broadcast.beb;
+package se.sics.kompics.abstractions.broadcast.erb;
 
-import se.sics.kompics.abstractions.network.NetAddress;
-import se.sics.kompics.KompicsEvent;
-import se.sics.kompics.PatternExtractor;
+import se.sics.kompics.PortType;
 
-import java.io.Serializable;
-
-public class BebDeliver implements PatternExtractor<Class, KompicsEvent>, Serializable {
-    private static final long serialVersionUID = 3112991876680389996L;
-    public final KompicsEvent payload;
-    public final NetAddress src;
-
-    public BebDeliver(KompicsEvent payload, NetAddress src) {
-        this.payload = payload;
-        this.src = src;
-    }
-
-    public Class extractPattern() {
-        return payload.getClass();
-    }
-
-    public KompicsEvent extractValue() {
-        return payload;
+public class EagerReliableBroadcastPort extends PortType {
+    {
+        indication(ErbDeliver.class);
+        request(ErbRequest.class);
     }
 }
-
