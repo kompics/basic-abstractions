@@ -19,13 +19,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package se.sics.kompics.abstractions;
+package se.sics.kompics.abstractions.broadcast.erb;
 
+import se.sics.kompics.PortType;
 
-public class TestUtils {
-    public static final String NODE_ADDR_PREFIX = "192.168.0.";
-    public static final int NODE_PORT = 5000;
-    public static final int EPFD_NODES = 3;
-    public static final int BEB_NODES = 3;
-    public static final int ERB_NODES = 3;
+public class EagerReliableBroadcastPort extends PortType {
+    {
+        indication(ErbDeliver.class);
+        indication(ErbMessage.class);
+        request(ErbRequest.class);
+    }
 }

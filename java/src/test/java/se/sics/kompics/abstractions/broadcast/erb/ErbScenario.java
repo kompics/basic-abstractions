@@ -19,44 +19,39 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package se.sics.kompics.abstractions.broadcast.beb;
+package se.sics.kompics.abstractions.broadcast.erb;
 
 import se.sics.kompics.Init;
 import se.sics.kompics.abstractions.TestUtils;
 import se.sics.kompics.abstractions.network.NetAddress;
-import se.sics.kompics.network.Address;
-import se.sics.kompics.simulator.SimulationScenario;
 import se.sics.kompics.simulator.adaptor.Operation1;
-import se.sics.kompics.simulator.adaptor.distributions.extra.BasicIntSequentialDistribution;
 import se.sics.kompics.simulator.events.system.StartNodeEvent;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class BebScenario {
+public class ErbScenario {
 
-    public static final Operation1 bebNodesOp = new Operation1<StartNodeEvent, Integer>() {
+    public static final Operation1 erbNodesOp = new Operation1<StartNodeEvent, Integer>() {
         @Override
         public StartNodeEvent generate(final Integer self) {
             return new StartNodeEvent() {
                 final NetAddress selfAdr;
                 { try {
-                        selfAdr = new NetAddress(InetAddress.getByName(TestUtils.NODE_ADDR_PREFIX + self), TestUtils.NODE_PORT);
-                    } catch (UnknownHostException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    selfAdr = new NetAddress(InetAddress.getByName(TestUtils.NODE_ADDR_PREFIX + self), TestUtils.NODE_PORT);
+                } catch (UnknownHostException ex) {
+                    throw new RuntimeException(ex);
+                }
                 }
 
                 @Override
-                public Address getNodeAddress() {
+                public NetAddress getNodeAddress() {
                     return selfAdr;
                 }
 
                 @Override
                 public Class getComponentDefinition() {
-                    return BebNode.class;
+                    return ErbNode.class;
                 }
 
                 @Override
@@ -66,10 +61,9 @@ public class BebScenario {
 
                 @Override
                 public Init getComponentInit() {
-                    return new BebNode.BebNodeInit(selfAdr);
+                    return new ErbNode.Init(selfAdr);
                 }
             };
         }
     };
-
 }

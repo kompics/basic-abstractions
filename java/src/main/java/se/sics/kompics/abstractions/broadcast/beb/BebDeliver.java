@@ -27,7 +27,8 @@ import se.sics.kompics.PatternExtractor;
 
 import java.io.Serializable;
 
-public class BebDeliver implements PatternExtractor<Class, KompicsEvent>, Serializable {
+public class BebDeliver implements PatternExtractor<Class<Object>, KompicsEvent>, Serializable {
+    private static final long serialVersionUID = 3112991876680389996L;
     public final KompicsEvent payload;
     public final NetAddress src;
 

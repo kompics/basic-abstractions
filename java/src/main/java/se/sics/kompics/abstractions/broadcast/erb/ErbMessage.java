@@ -19,13 +19,33 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package se.sics.kompics.abstractions;
+package se.sics.kompics.abstractions.broadcast.erb;
 
+import se.sics.kompics.KompicsEvent;
+import se.sics.kompics.PatternExtractor;
+import se.sics.kompics.abstractions.network.NetAddress;
 
-public class TestUtils {
-    public static final String NODE_ADDR_PREFIX = "192.168.0.";
-    public static final int NODE_PORT = 5000;
-    public static final int EPFD_NODES = 3;
-    public static final int BEB_NODES = 3;
-    public static final int ERB_NODES = 3;
+import java.io.Serializable;
+import java.util.Set;
+
+public class ErbMessage implements KompicsEvent, Serializable, PatternExtractor<Class, KompicsEvent> {
+    private static final long serialVersionUID = 7380529332203297864L;
+    public final KompicsEvent payload;
+    public final Set<NetAddress> nodes;
+
+    public ErbMessage(KompicsEvent payload, Set<NetAddress> nodes) {
+        this.payload = payload;
+        this.nodes = nodes;
+    }
+
+    @Override
+    public Class extractPattern() {
+        Class c = payload.getClass();
+        return (Class<Object>) c;
+    }
+
+    @Override
+    public KompicsEvent extractValue() {
+        return payload;
+    }
 }
