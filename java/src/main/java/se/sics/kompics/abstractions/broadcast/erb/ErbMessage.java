@@ -28,7 +28,7 @@ import se.sics.kompics.abstractions.network.NetAddress;
 import java.io.Serializable;
 import java.util.Set;
 
-public class ErbMessage implements KompicsEvent, Serializable, PatternExtractor<Class<Object>, KompicsEvent> {
+public class ErbMessage implements KompicsEvent, Serializable, PatternExtractor<Class, KompicsEvent> {
     private static final long serialVersionUID = 7380529332203297864L;
     public final KompicsEvent payload;
     public final Set<NetAddress> nodes;
@@ -40,7 +40,8 @@ public class ErbMessage implements KompicsEvent, Serializable, PatternExtractor<
 
     @Override
     public Class extractPattern() {
-        return payload.getClass();
+        Class c = payload.getClass();
+        return (Class<Object>) c;
     }
 
     @Override

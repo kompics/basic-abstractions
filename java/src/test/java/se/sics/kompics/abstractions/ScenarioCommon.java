@@ -21,10 +21,26 @@
 
 package se.sics.kompics.abstractions;
 
+import se.sics.kompics.simulator.SimulationScenario;
+import se.sics.kompics.simulator.adaptor.Operation1;
+import se.sics.kompics.simulator.adaptor.distributions.extra.BasicIntSequentialDistribution;
+import se.sics.kompics.simulator.events.system.StartNodeEvent;
 
-public class TestUtils {
-    public static final String NODE_ADDR_PREFIX = "192.168.0.";
-    public static final int NODE_PORT = 5000;
-    public static final int BEB_NODES = 3;
-    public static final int ERB_NODES = 3;
+public class ScenarioCommon {
+
+    public static SimulationScenario normalBroadcast(final int servers, Operation1<StartNodeEvent, Integer> op) {
+        return new SimulationScenario() {
+            {
+                SimulationScenario.StochasticProcess nodes = new SimulationScenario.StochasticProcess() {
+                    {
+                        eventInterArrivalTime(constant(1000));
+                        raise(servers, op, new BasicIntSequentialDistribution(1));
+                    }
+                };
+
+                nodes.start();
+                terminateAfterTerminationOf(100000, nodes);
+            }
+        };
+    }
 }

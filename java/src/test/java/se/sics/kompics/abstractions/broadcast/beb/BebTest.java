@@ -27,6 +27,7 @@ import se.sics.kompics.Component;
 import se.sics.kompics.KompicsEvent;
 import se.sics.kompics.Negative;
 import se.sics.kompics.Positive;
+import se.sics.kompics.abstractions.ScenarioCommon;
 import se.sics.kompics.abstractions.TestUtils;
 import se.sics.kompics.abstractions.links.perfect.PerfectLinkPort;
 import se.sics.kompics.abstractions.links.perfect.Pp2pSend;
@@ -49,7 +50,7 @@ public class BebTest {
     public void scenarioTest() {
         long seed = 123;
         SimulationScenario.setSeed(seed);
-        SimulationScenario bebScenario = BebScenario.normal(TestUtils.BEB_NODES);
+        SimulationScenario bebScenario = ScenarioCommon.normalBroadcast(TestUtils.BEB_NODES, BebScenario.bebNodesOp);
         bebScenario.simulate(LauncherComp.class);
         SimulationResultMap res = SimulationResultSingleton.getInstance();
         int port = TestUtils.NODE_PORT;

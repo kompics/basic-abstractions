@@ -57,9 +57,9 @@ public class EagerReliableBroadcast extends ComponentDefinition {
         }
     };
 
-    private ClassMatchedHandler<BebDeliver, ErbMessage> bebDeliverHandler = new ClassMatchedHandler<BebDeliver, ErbMessage>() {
+    private ClassMatchedHandler<ErbMessage, BebDeliver> bebDeliverHandler= new ClassMatchedHandler<ErbMessage, BebDeliver>() {
         @Override
-        public void handle(BebDeliver bebDeliver, ErbMessage erbMessage) {
+        public void handle(ErbMessage erbMessage, BebDeliver bebDeliver) {
             KompicsEvent payload = bebDeliver.payload;
             if (!delivered.contains(payload)) {
                 delivered.add(payload);
@@ -68,6 +68,7 @@ public class EagerReliableBroadcast extends ComponentDefinition {
             }
         }
     };
+
 
     public static class Init extends se.sics.kompics.Init<EagerReliableBroadcast> {
         private final NetAddress self;

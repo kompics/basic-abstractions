@@ -26,6 +26,7 @@ import se.sics.kompics.PortType;
 public class EagerReliableBroadcastPort extends PortType {
     {
         indication(ErbDeliver.class);
+        indication(ErbMessage.class);
         request(ErbRequest.class);
     }
 }
