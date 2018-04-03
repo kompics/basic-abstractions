@@ -24,5 +24,6 @@ package se.sics.kompics.abstractions;
 public class TestUtils {
     public static final String NODE_ADDR_PREFIX = "192.168.0.";
     public static final int NODE_PORT = 5000;
+    public static final int EPFD_NODES = 3;
     public static final int BEB_NODES = 3;
 }

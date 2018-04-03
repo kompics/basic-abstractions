@@ -19,33 +19,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package se.sics.kompics.abstractions.links.perfect;
+package se.sics.kompics.abstractions.fd.epfd;
 
-import se.sics.kompics.abstractions.network.NetAddress;
 import se.sics.kompics.KompicsEvent;
-import se.sics.kompics.PatternExtractor;
 
 import java.io.Serializable;
 
-public class Pp2pDeliver implements KompicsEvent, Serializable, PatternExtractor<Class<Object>, KompicsEvent> {
-    private static final long serialVersionUID = -3181045153332189199L;
+public class HeartbeatRequest implements KompicsEvent, Serializable {
+    private static final long serialVersionUID = -8875776694424183700L;
+    public final int seq;
 
-    public final NetAddress src;
-    public final KompicsEvent payload;
-
-    public Pp2pDeliver(NetAddress src, KompicsEvent payload){
-        this.src = src;
-        this.payload = payload;
-    }
-
-    @Override
-    public Class extractPattern() {
-        Class c = payload.getClass();
-        return (Class<Object>) c;
-    }
-
-    @Override
-    public KompicsEvent extractValue() {
-        return payload;
+    public HeartbeatRequest(int seq) {
+        this.seq = seq;
     }
 }
