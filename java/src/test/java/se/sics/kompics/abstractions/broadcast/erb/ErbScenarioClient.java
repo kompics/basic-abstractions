@@ -41,7 +41,7 @@ import java.util.Set;
 public class ErbScenarioClient extends ComponentDefinition {
     /** Ports **/
     private final Positive<Timer> timer = requires(Timer.class);
-    private final Positive<EagerReliableBroadcastPort> erb = requires(EagerReliableBroadcastPort.class);
+    private final Positive<EagerReliableBroadcast> erb = requires(EagerReliableBroadcast.class);
     /** Fields **/
     private final SimulationResultMap res = SimulationResultSingleton.getInstance();
     private Set<NetAddress> nodes;

@@ -19,13 +19,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package se.sics.kompics.abstractions.links.perfect;
+package se.sics.kompics.abstractions.fd.epfd;
 
 import se.sics.kompics.PortType;
 
-public class PerfectLinkPort extends PortType {
+public class EventuallyPerfectFailureDetector extends PortType {
     {
-        indication(Pp2pDeliver.class);
-        request(Pp2pSend.class);
+        indication(Restore.class);
+        indication(Suspect.class);
     }
 }

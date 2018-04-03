@@ -21,46 +21,49 @@
 
 package se.sics.kompics.abstractions.broadcast.beb;
 
-import se.sics.kompics.*;
 import se.sics.kompics.abstractions.links.perfect.PerfectLink;
-import se.sics.kompics.abstractions.links.perfect.PerfectLinkComp;
+import se.sics.kompics.abstractions.links.perfect.Pp2pDeliver;
+import se.sics.kompics.abstractions.links.perfect.Pp2pSend;
 import se.sics.kompics.abstractions.network.NetAddress;
-import se.sics.kompics.network.Network;
-import se.sics.kompics.timer.Timer;
+import se.sics.kompics.*;
 
-public class BebNode extends ComponentDefinition {
+public class BebComp extends ComponentDefinition {
     /** Ports **/
-    private final Positive<Network> net = requires(Network.class);
-    private final Positive<Timer> timer = requires(Timer.class);
-
-    /** Components **/
-    private Component bebClient;
-    private Component beb;
-    private Component pLink;
+    private final Positive<PerfectLink> pLink = requires(PerfectLink.class);
+    private final Negative<BestEffortBroadcast> beb = provides(BestEffortBroadcast.class);
 
     /** Fields **/
-
     private NetAddress self;
 
-    public BebNode(Init init) {
+    public BebComp(Init init) {
         this.self = init.self;
-        this.beb = create(BebComp.class, new BebComp.Init(self));
-        this.bebClient = create(BebScenarioClient.class, new BebScenarioClient.BSCInit(self));
-        this.pLink = create(PerfectLinkComp.class, new PerfectLinkComp.Init(self));
-
-        // Connections
-        connect(beb.getPositive(BestEffortBroadcast.class), bebClient.getNegative(BestEffortBroadcast.class), Channel.TWO_WAY);
-        connect(pLink.getPositive(PerfectLink.class), beb.getNegative(PerfectLink.class), Channel.TWO_WAY);
-        connect(net, pLink.getNegative(Network.class), Channel.TWO_WAY);
-        connect(timer, bebClient.getNegative(Timer.class), Channel.TWO_WAY);
+        subscribe(requestHandler, beb);
+        subscribe(deliverHandler, pLink);
     }
 
+    /** Handlers **/
+    private final Handler<BebRequest> requestHandler = new Handler<BebRequest>() {
+        @Override
+        public void handle(BebRequest event) {
+            for (NetAddress addr: event.nodes) {
+                trigger(new Pp2pSend(addr, event.payload), pLink);
+            }
+        }
+    };
 
-    public static class Init extends se.sics.kompics.Init<BebNode> {
+    private final Handler<Pp2pDeliver> deliverHandler = new Handler<Pp2pDeliver>() {
+        @Override
+        public void handle(Pp2pDeliver d) {
+            trigger(new BebDeliver(d.payload, d.src), beb);
+        }
+    };
+
+    public static class Init extends se.sics.kompics.Init<BebComp> {
         private final NetAddress self;
 
         public Init(NetAddress self) {
             this.self = self;
         }
     }
+
 }

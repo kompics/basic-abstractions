@@ -44,10 +44,10 @@ public class PerfectLinkTest {
         NetAddress n1 = new NetAddress(InetAddress.getLoopbackAddress(), 12346);
         NetAddress n2 = new NetAddress(InetAddress.getLoopbackAddress(), 12347);
 
-        TestContext<PerfectLink> tc = TestContext.newInstance(PerfectLink.class, new PerfectLink.Pp2pInit(n1));
+        TestContext<PerfectLinkComp> tc = TestContext.newInstance(PerfectLinkComp.class, new PerfectLinkComp.Init(n1));
         Component comp = tc.getComponentUnderTest();
         Negative<Network> net = comp.getNegative(Network.class);
-        Positive<PerfectLinkPort> pLink = comp.getPositive(PerfectLinkPort.class);
+        Positive<PerfectLink> pLink = comp.getPositive(PerfectLink.class);
 
         TestEvent event = new TestEvent();
         Pp2pSend pp2pSend = new Pp2pSend(n2, event);

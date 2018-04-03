@@ -34,7 +34,7 @@ import se.sics.kompics.timer.Timer;
 
 public class EpfdScenarioClient extends ComponentDefinition {
     /** Ports **/
-    private final Positive<EpfdPort> epfd = requires(EpfdPort.class);
+    private final Positive<EventuallyPerfectFailureDetector> epfd = requires(EventuallyPerfectFailureDetector.class);
 
     /** Fields **/
     private final SimulationResultMap res = SimulationResultSingleton.getInstance();

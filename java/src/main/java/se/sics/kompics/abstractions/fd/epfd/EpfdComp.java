@@ -24,7 +24,7 @@ package se.sics.kompics.abstractions.fd.epfd;
 
 import com.google.common.collect.Sets;
 import se.sics.kompics.*;
-import se.sics.kompics.abstractions.links.perfect.PerfectLinkPort;
+import se.sics.kompics.abstractions.links.perfect.PerfectLink;
 import se.sics.kompics.abstractions.links.perfect.Pp2pDeliver;
 import se.sics.kompics.abstractions.links.perfect.Pp2pSend;
 import se.sics.kompics.abstractions.network.NetAddress;
@@ -35,11 +35,11 @@ import se.sics.kompics.timer.Timer;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Epfd extends ComponentDefinition {
+public class EpfdComp extends ComponentDefinition {
     /** Ports **/
     private final Positive<Timer> timer = requires(Timer.class);
-    private final Positive<PerfectLinkPort> pLink = requires(PerfectLinkPort.class);
-    private final Negative<EpfdPort> epfd = provides(EpfdPort.class);
+    private final Positive<PerfectLink> pLink = requires(PerfectLink.class);
+    private final Negative<EventuallyPerfectFailureDetector> epfd = provides(EventuallyPerfectFailureDetector.class);
 
     /** Fields **/
     private Set<NetAddress> alive;
@@ -50,7 +50,7 @@ public class Epfd extends ComponentDefinition {
     private long delta;
     private long delay;
 
-    public Epfd(Init init) {
+    public EpfdComp(Init init) {
         this.self = init.self;
         this.delta = init.timeout;
         this.delay = this.delta;
@@ -129,7 +129,7 @@ public class Epfd extends ComponentDefinition {
         }
     }
 
-    public static class Init extends se.sics.kompics.Init<Epfd> {
+    public static class Init extends se.sics.kompics.Init<EpfdComp> {
         private final NetAddress self;
         private final Set<NetAddress> members;
         private final long timeout;

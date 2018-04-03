@@ -27,7 +27,7 @@ import se.sics.kompics.ComponentDefinition;
 import se.sics.kompics.Positive;
 import se.sics.kompics.abstractions.TestUtils;
 import se.sics.kompics.abstractions.links.perfect.PerfectLink;
-import se.sics.kompics.abstractions.links.perfect.PerfectLinkPort;
+import se.sics.kompics.abstractions.links.perfect.PerfectLinkComp;
 import se.sics.kompics.abstractions.network.NetAddress;
 import se.sics.kompics.network.Network;
 import se.sics.kompics.timer.Timer;
@@ -67,14 +67,15 @@ public class EpfdNode extends ComponentDefinition {
 
         members.remove(self);
 
-        this.epfd = create(Epfd.class, new Epfd.Init(members, self, timeout));
-        this.pLink = create(PerfectLink.class, new PerfectLink.Pp2pInit(self));
+        this.epfd = create(EpfdComp.class, new EpfdComp.Init(members, self, timeout));
+        this.pLink = create(PerfectLinkComp.class, new PerfectLinkComp.Init(self));
         this.epfdClient = create(EpfdScenarioClient.class, new EpfdScenarioClient.Init(self));
 
         // Connections
-        connect(epfd.getPositive(EpfdPort.class), epfdClient.getNegative(EpfdPort.class), Channel.TWO_WAY);
+        connect(epfd.getPositive(EventuallyPerfectFailureDetector.class),
+                epfdClient.getNegative(EventuallyPerfectFailureDetector.class), Channel.TWO_WAY);
         connect(timer, epfd.getNegative(Timer.class), Channel.TWO_WAY);
-        connect(pLink.getPositive(PerfectLinkPort.class), epfd.getNegative(PerfectLinkPort.class), Channel.TWO_WAY);
+        connect(pLink.getPositive(PerfectLink.class), epfd.getNegative(PerfectLink.class), Channel.TWO_WAY);
         connect(net, pLink.getNegative(Network.class), Channel.TWO_WAY);
     }
 

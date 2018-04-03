@@ -41,7 +41,7 @@ import java.util.Set;
 public class BebScenarioClient extends ComponentDefinition {
     /** Ports **/
     private final Positive<Timer> timer = requires(Timer.class);
-    private final Positive<BestEffortBroadcastPort> beb = requires(BestEffortBroadcastPort.class);
+    private final Positive<BestEffortBroadcast> beb = requires(BestEffortBroadcast.class);
     /** Fields **/
     private final SimulationResultMap res = SimulationResultSingleton.getInstance();
     private Set<NetAddress> nodes;

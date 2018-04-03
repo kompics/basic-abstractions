@@ -25,10 +25,10 @@ import se.sics.kompics.Channel;
 import se.sics.kompics.Component;
 import se.sics.kompics.ComponentDefinition;
 import se.sics.kompics.Positive;
+import se.sics.kompics.abstractions.broadcast.beb.BebComp;
 import se.sics.kompics.abstractions.broadcast.beb.BestEffortBroadcast;
-import se.sics.kompics.abstractions.broadcast.beb.BestEffortBroadcastPort;
 import se.sics.kompics.abstractions.links.perfect.PerfectLink;
-import se.sics.kompics.abstractions.links.perfect.PerfectLinkPort;
+import se.sics.kompics.abstractions.links.perfect.PerfectLinkComp;
 import se.sics.kompics.abstractions.network.NetAddress;
 import se.sics.kompics.network.Network;
 import se.sics.kompics.timer.Timer;
@@ -50,17 +50,17 @@ public class ErbNode extends ComponentDefinition {
 
     public ErbNode(Init init) {
         this.self = init.self;
-        this.erb = create(EagerReliableBroadcast.class, new EagerReliableBroadcast.Init(self));
+        this.erb = create(ErbComp.class, new ErbComp.Init(self));
         this.erbClient = create(ErbScenarioClient.class, new ErbScenarioClient.Init(self));
-        this.pLink = create(PerfectLink.class, new PerfectLink.Pp2pInit(self));
-        this.beb = create(BestEffortBroadcast.class, new BestEffortBroadcast.BebInit(self));
+        this.pLink = create(PerfectLinkComp.class, new PerfectLinkComp.Init(self));
+        this.beb = create(BebComp.class, new BebComp.Init(self));
 
         // Connections
-        connect(erb.getPositive(EagerReliableBroadcastPort.class), erbClient.getNegative(EagerReliableBroadcastPort.class), Channel.TWO_WAY);
-        connect(pLink.getPositive(PerfectLinkPort.class), beb.getNegative(PerfectLinkPort.class), Channel.TWO_WAY);
+        connect(erb.getPositive(EagerReliableBroadcast.class), erbClient.getNegative(EagerReliableBroadcast.class), Channel.TWO_WAY);
+        connect(pLink.getPositive(PerfectLink.class), beb.getNegative(PerfectLink.class), Channel.TWO_WAY);
         connect(net, pLink.getNegative(Network.class), Channel.TWO_WAY);
         connect(timer, erbClient.getNegative(Timer.class), Channel.TWO_WAY);
-        connect(erb.getNegative(BestEffortBroadcastPort.class), beb.getPositive(BestEffortBroadcastPort.class), Channel.TWO_WAY);
+        connect(erb.getNegative(BestEffortBroadcast.class), beb.getPositive(BestEffortBroadcast.class), Channel.TWO_WAY);
     }
 
 

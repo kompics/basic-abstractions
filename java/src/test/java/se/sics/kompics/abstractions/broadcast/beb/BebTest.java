@@ -29,7 +29,7 @@ import se.sics.kompics.Negative;
 import se.sics.kompics.Positive;
 import se.sics.kompics.abstractions.ScenarioCommon;
 import se.sics.kompics.abstractions.TestUtils;
-import se.sics.kompics.abstractions.links.perfect.PerfectLinkPort;
+import se.sics.kompics.abstractions.links.perfect.PerfectLink;
 import se.sics.kompics.abstractions.links.perfect.Pp2pSend;
 import se.sics.kompics.abstractions.network.NetAddress;
 import se.sics.kompics.simulator.SimulationScenario;
@@ -72,10 +72,10 @@ public class BebTest {
         NetAddress n3 = new NetAddress(InetAddress.getLoopbackAddress(), 12348);
         ImmutableSet<NetAddress> nodes = ImmutableSet.of(n1, n2, n3);
 
-        TestContext<BestEffortBroadcast> tc = TestContext.newInstance(BestEffortBroadcast.class, new BestEffortBroadcast.BebInit(n1));
+        TestContext<BebComp> tc = TestContext.newInstance(BebComp.class, new BebComp.Init(n1));
         Component comp = tc.getComponentUnderTest();
-        Negative<PerfectLinkPort> pLink = comp.getNegative(PerfectLinkPort.class);
-        Positive<BestEffortBroadcastPort> beb = comp.getPositive(BestEffortBroadcastPort.class);
+        Negative<PerfectLink> pLink = comp.getNegative(PerfectLink.class);
+        Positive<BestEffortBroadcast> beb = comp.getPositive(BestEffortBroadcast.class);
 
         Ping pong = new Ping();
         BebRequest req = new BebRequest(pong, nodes, n1);

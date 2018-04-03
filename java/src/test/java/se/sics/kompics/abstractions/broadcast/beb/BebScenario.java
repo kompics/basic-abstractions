@@ -66,7 +66,7 @@ public class BebScenario {
 
                 @Override
                 public Init getComponentInit() {
-                    return new BebNode.BebNodeInit(selfAdr);
+                    return new BebNode.Init(selfAdr);
                 }
             };
         }

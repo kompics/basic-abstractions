@@ -21,61 +21,12 @@
 
 package se.sics.kompics.abstractions.broadcast.erb;
 
-import se.sics.kompics.*;
-import se.sics.kompics.abstractions.broadcast.beb.BebDeliver;
-import se.sics.kompics.abstractions.broadcast.beb.BebRequest;
-import se.sics.kompics.abstractions.broadcast.beb.BestEffortBroadcastPort;
-import se.sics.kompics.abstractions.network.NetAddress;
+import se.sics.kompics.PortType;
 
-import java.util.HashSet;
-import java.util.Set;
-
-public class EagerReliableBroadcast extends ComponentDefinition {
-    /** Ports **/
-    private final Positive<BestEffortBroadcastPort> beb = requires(BestEffortBroadcastPort.class);
-    private final Negative<EagerReliableBroadcastPort> erb = provides(EagerReliableBroadcastPort.class);
-
-    /** Fields **/
-    private Set<KompicsEvent> delivered;
-    private NetAddress self;
-
-    public EagerReliableBroadcast(Init init) {
-        this.self = init.self;
-        this.delivered = new HashSet<>();
-
-        subscribe(erbRequestHandler, erb);
-        subscribe(bebDeliverHandler, beb);
+public class EagerReliableBroadcast extends PortType {
+    {
+        indication(ErbDeliver.class);
+        indication(ErbMessage.class);
+        request(ErbRequest.class);
     }
-
-    /** Handlers **/
-
-    private Handler<ErbRequest> erbRequestHandler = new Handler<ErbRequest>() {
-        @Override
-        public void handle(ErbRequest erbRequest) {
-            ErbMessage msg = new ErbMessage(erbRequest.payload, erbRequest.nodes);
-            trigger(new BebRequest(msg, erbRequest.nodes, self), beb);
-        }
-    };
-
-    private ClassMatchedHandler<ErbMessage, BebDeliver> bebDeliverHandler= new ClassMatchedHandler<ErbMessage, BebDeliver>() {
-        @Override
-        public void handle(ErbMessage erbMessage, BebDeliver bebDeliver) {
-            KompicsEvent payload = bebDeliver.payload;
-            if (!delivered.contains(payload)) {
-                delivered.add(payload);
-                trigger(new ErbDeliver(payload, bebDeliver.src), erb);
-                trigger(new BebRequest(payload, erbMessage.nodes, self), beb);
-            }
-        }
-    };
-
-
-    public static class Init extends se.sics.kompics.Init<EagerReliableBroadcast> {
-        private final NetAddress self;
-
-        public Init(NetAddress self) {
-            this.self = self;
-        }
-    }
-
 }
