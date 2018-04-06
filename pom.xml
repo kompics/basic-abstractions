@@ -9,6 +9,7 @@
 
     <modules>
         <module>java</module>
+        <module>scala</module>
     </modules>
 
     <properties>
@@ -17,7 +18,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kompics.version>1.0.0</kompics.version>
-        <scala.version>2.12.1</scala.version>
+        <scala.version>2.12.4</scala.version>
     </properties>
 
 
