@@ -53,7 +53,7 @@ public class ErbNode extends ComponentDefinition {
         this.erb = create(ErbComp.class, new ErbComp.Init(self));
         this.erbClient = create(ErbScenarioClient.class, new ErbScenarioClient.Init(self));
         this.pLink = create(PerfectLinkComp.class, new PerfectLinkComp.Init(self));
-        this.beb = create(BebComp.class, new BebComp.Init(self));
+        this.beb = create(BebComp.class, Init.NONE);
 
         // Connections
         connect(erb.getPositive(EagerReliableBroadcast.class), erbClient.getNegative(EagerReliableBroadcast.class), Channel.TWO_WAY);

@@ -39,12 +39,11 @@ public class BebNode extends ComponentDefinition {
     private Component pLink;
 
     /** Fields **/
-
     private NetAddress self;
 
     public BebNode(Init init) {
         this.self = init.self;
-        this.beb = create(BebComp.class, new BebComp.Init(self));
+        this.beb = create(BebComp.class, se.sics.kompics.Init.NONE);
         this.bebClient = create(BebScenarioClient.class, new BebScenarioClient.BSCInit(self));
         this.pLink = create(PerfectLinkComp.class, new PerfectLinkComp.Init(self));
 
