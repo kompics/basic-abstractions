@@ -32,11 +32,7 @@ public class BebComp extends ComponentDefinition {
     private final Positive<PerfectLink> pLink = requires(PerfectLink.class);
     private final Negative<BestEffortBroadcast> beb = provides(BestEffortBroadcast.class);
 
-    /** Fields **/
-    private NetAddress self;
-
-    public BebComp(Init init) {
-        this.self = init.self;
+    public BebComp() {
         subscribe(requestHandler, beb);
         subscribe(deliverHandler, pLink);
     }
@@ -57,13 +53,5 @@ public class BebComp extends ComponentDefinition {
             trigger(new BebDeliver(d.payload, d.src), beb);
         }
     };
-
-    public static class Init extends se.sics.kompics.Init<BebComp> {
-        private final NetAddress self;
-
-        public Init(NetAddress self) {
-            this.self = self;
-        }
-    }
 
 }

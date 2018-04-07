@@ -23,10 +23,7 @@ package se.sics.kompics.abstractions.broadcast.beb;
 
 import com.google.common.collect.ImmutableSet;
 import org.junit.Test;
-import se.sics.kompics.Component;
-import se.sics.kompics.KompicsEvent;
-import se.sics.kompics.Negative;
-import se.sics.kompics.Positive;
+import se.sics.kompics.*;
 import se.sics.kompics.abstractions.ScenarioCommon;
 import se.sics.kompics.abstractions.TestUtils;
 import se.sics.kompics.abstractions.links.perfect.PerfectLink;
@@ -72,7 +69,7 @@ public class BebTest {
         NetAddress n3 = new NetAddress(InetAddress.getLoopbackAddress(), 12348);
         ImmutableSet<NetAddress> nodes = ImmutableSet.of(n1, n2, n3);
 
-        TestContext<BebComp> tc = TestContext.newInstance(BebComp.class, new BebComp.Init(n1));
+        TestContext<BebComp> tc = TestContext.newInstance(BebComp.class, Init.NONE);
         Component comp = tc.getComponentUnderTest();
         Negative<PerfectLink> pLink = comp.getNegative(PerfectLink.class);
         Positive<BestEffortBroadcast> beb = comp.getPositive(BestEffortBroadcast.class);
