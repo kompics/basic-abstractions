@@ -21,14 +21,9 @@
 
 package se.sics.kompics.abstractions.scala.broadcast.beb
 
-import se.sics.kompics.KompicsEvent
-import se.sics.kompics.abstractions.network.NetAddress
-import scala.collection.JavaConverters._
-import se.sics.kompics.abstractions.broadcast.beb.{BebRequest => BebRequestJava}
+import se.sics.kompics.PortType
 
-case class BebRequest(event: KompicsEvent, addresses: Set[NetAddress], self: NetAddress)
-  extends KompicsEvent with Serializable {
-
-  def asJava(): BebRequestJava = new BebRequestJava(event, addresses.asJava, self)
+class BestEffortBroadcast extends PortType {
+  indication(classOf[BebDeliver])
+  request(classOf[BebRequest])
 }
-
