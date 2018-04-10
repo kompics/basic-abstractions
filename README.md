@@ -1,4 +1,5 @@
 # basic-abstractions
+
 Implementations of basic distributed systems abstractions in Kompics
 
 ## Java
@@ -9,6 +10,8 @@ Implementations of basic distributed systems abstractions in Kompics
 - [ ] Total Order Broadcast
 - [x] Eventually Perfect Failure Detector
 - [ ] Perfect Failure Detector
+- [ ] Eventual Leader Election
+- [ ] Consensus
 
 ## Scala
 - [ ] Perfect Link
@@ -18,3 +21,19 @@ Implementations of basic distributed systems abstractions in Kompics
 - [ ] Total Order Broadcast
 - [ ] Eventually Perfect Failure Detector
 - [ ] Perfect Failure Detector
+- [ ] Eventual Leader Election
+- [ ] Consensus
+
+# Contributing
+
+Pull Requests are very welcome! If you have questions, feel free to either create an issue or send an email to mmeldrum@kth.se
+
+
+# License
+
+Kompics Basic Abstractions is Open Source and available under GPL v2.0
+
+
+
+
+
