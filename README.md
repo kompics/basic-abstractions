@@ -41,6 +41,8 @@ $ mvn test
 
 Pull Requests are very welcome! If you have questions, feel free to either create an issue or send an email to mmeldrum@kth.se
 
+**Note:** The Scala implementations are just wrappers around the Java implementation. i.e, if you want to add a new abstraction, start with Java.
+
 
 # License
 
