@@ -24,6 +24,19 @@ Implementations of basic distributed systems abstractions in Kompics
 - [ ] Eventual Leader Election
 - [ ] Consensus
 
+
+# Development
+
+Compiling
+```
+$ mvn compile
+```
+
+Running tests
+```
+$ mvn test
+```
+
 # Contributing
 
 Pull Requests are very welcome! If you have questions, feel free to either create an issue or send an email to mmeldrum@kth.se
